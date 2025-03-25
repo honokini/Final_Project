@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices JavaScript - Nombres et Motifs</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+    <h2> Nombres Premiers (1 à 100)</h2>
+    <button onclick="afficherNombresPremiers()">Afficher</button>
+    <p id="resultPremiers"></p>
+
+    <h2> Facteurs d'un Nombre</h2>
+    <input type="number" id="facteurNombre" placeholder="Entrez un nombre">
+    <button onclick="trouverFacteurs()">Trouver</button>
+    <p id="resultFacteurs"></p>
+
+    <h2>Moyenne des Nombres Positifs</h2>
+    <input type="number" id="moyenneNombre" placeholder="Entrez un nombre">
+    <button onclick="ajouterNombre()">Ajouter</button>
+    <button onclick="calculerMoyenne()">Calculer</button>
+    <p id="resultMoyenne"></p>
+
+    <h2> Motif Triangulaire</h2>
+    <input type="number" id="hauteurTriangle" placeholder="Entrez la hauteur">
+    <button onclick="genererTriangle()">Générer</button>
+    <pre id="resultTriangle"></pre>
+
+    <script>
+        // Afficher les nombres premiers entre 1 et 100
+        function estPremier(n) {
+            if (n < 2) return false;
+            for (let i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i === 0) return false;
+            }
+            return true;
+        }
+
+        function afficherNombresPremiers() {
+            let result = [];
+            for (let i = 1; i <= 100; i++) {
+                if (estPremier(i)) {
+                    result.push(i);
+                }
+            }
+            document.getElementById("resultPremiers").innerText = "Nombres premiers : " + result.join(", ");
+        }
+
+        // Trouver les facteurs d'un nombre
+        function trouverFacteurs() {
+            let nombre = parseInt(document.getElementById("facteurNombre").value);
+            let facteurs = [];
+            for (let i = 1; i <= nombre; i++) {
+                if (nombre % i === 0) {
+                    facteurs.push(i);
+                }
+            }
+            document.getElementById("resultFacteurs").innerText = "Facteurs : " + facteurs.join(", ");
+        }
+
+        // Calculer la moyenne des nombres positifs
+        let nombres = [];
+
+        function ajouterNombre() {
+            let nombre = parseFloat(document.getElementById("moyenneNombre").value);
+            if (nombre >= 0) {
+                nombres.push(nombre);
+                document.getElementById("resultMoyenne").innerText = "Nombres saisis : " + nombres.join(", ");
+            } else {
+                alert("Nombre négatif détecté. Cliquez sur 'Calculer' pour obtenir la moyenne.");
+            }
+        }
+
+        function calculerMoyenne() {
+            if (nombres.length === 0) {
+                document.getElementById("resultMoyenne").innerText = "Aucun nombre positif saisi.";
+                return;
+            }
+            let somme = nombres.reduce((acc, val) => acc + val, 0);
+            let moyenne = somme / nombres.length;
+            document.getElementById("resultMoyenne").innerText = "Moyenne : " + moyenne.toFixed(2);
+        }
+
+        // Générer un motif triangulaire avec des étoiles
+        function genererTriangle() {
+            let hauteur = parseInt(document.getElementById("hauteurTriangle").value);
+            let motif = "";
+            for (let i = 1; i <= hauteur; i++) {
+                motif += "*".repeat(i * 2 - 1) + "\n";
+            }
+            document.getElementById("resultTriangle").innerText = motif;
+        }
+    </script>
+
+</body>
+</html>

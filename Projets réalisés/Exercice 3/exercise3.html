@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulation de Dates</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+    <h2>Manipulation de Dates</h2>
+
+    <label for="date">Entrez une date (JJ-MM-AAAA) :</label>
+    <input type="text" id="date" placeholder="ex: 17-03-2025" oninput="manipulerDate()">
+    
+    <p><strong>Jour :</strong> <span id="jour"></span></p>
+    <p><strong>Mois :</strong> <span id="mois"></span></p>
+    <p><strong>Année :</strong> <span id="annee"></span></p>
+
+    <h3>Différence en jours avec la date actuelle</h3>
+    <p><strong>Différence :</strong> <span id="difference"></span> jours</p>
+
+    <script>
+        // Fonction qui manipule la date saisie
+        function manipulerDate() {
+            let dateSaisie = document.getElementById("date").value;
+            let parts = dateSaisie.split('-');
+
+            // Vérification si la date saisie est correcte
+            if (parts.length === 3) {
+                let jour = parseInt(parts[0]);
+                let mois = parseInt(parts[1]) - 1;  // Les mois commencent à 0 dans l'objet Date
+                let annee = parseInt(parts[2]);
+                let dateObjet = new Date(annee, mois, jour);
+
+                // Affichage du jour, mois et année
+                if (!isNaN(dateObjet.getTime())) {
+                    document.getElementById("jour").innerText = dateObjet.getDate();
+                    document.getElementById("mois").innerText = dateObjet.getMonth() + 1; // Affichage sous forme de mois humain
+                    document.getElementById("annee").innerText = dateObjet.getFullYear();
+
+                    // Calculer la différence en jours
+                    calculerDifference(dateObjet);
+                } else {
+                    document.getElementById("jour").innerText = "Date invalide";
+                    document.getElementById("mois").innerText = "Date invalide";
+                    document.getElementById("annee").innerText = "Date invalide";
+                    document.getElementById("difference").innerText = "Erreur dans la date.";
+                }
+            } else {
+                document.getElementById("jour").innerText = "Format invalide";
+                document.getElementById("mois").innerText = "Format invalide";
+                document.getElementById("annee").innerText = "Format invalide";
+                document.getElementById("difference").innerText = "Erreur dans le format.";
+            }
+        }
+
+        // Fonction pour calculer la différence en jours entre la date actuelle et la date saisie
+        function calculerDifference(dateSaisie) {
+            let dateActuelle = new Date();
+            let differenceTemps = dateActuelle - dateSaisie;  // Différence en millisecondes
+            let differenceJours = Math.floor(differenceTemps / (1000 * 3600 * 24));  // Conversion en jours
+
+            document.getElementById("difference").innerText = differenceJours;
+        }
+    </script>
+
+</body>
+</html>
